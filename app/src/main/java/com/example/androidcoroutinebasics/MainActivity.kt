@@ -3,13 +3,13 @@ package com.example.androidcoroutinebasics
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import com.example.androidcoroutinebasics.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     private var i = 0
     private lateinit var binding: ActivityMainBinding
-    private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         btnCount.text = "$i"
 
         btnCount.setOnClickListener {
-            val job = scope.launch {
+            val job = lifecycleScope.launch {
                 for (j in 1..10) {
                     i++
                     btnCount.text = "$i"
@@ -37,6 +37,5 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        scope.cancel()
     }
 }
