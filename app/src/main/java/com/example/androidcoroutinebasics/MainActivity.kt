@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         btnCount.text = "$i"
 
         btnCount.setOnClickListener {
-            scope.launch {
+            val job = scope.launch {
                 for (j in 1..10) {
                     i++
                     btnCount.text = "$i"
@@ -29,6 +29,14 @@ class MainActivity : AppCompatActivity() {
                     delay(1000)
                 }
             }
+            job.invokeOnCompletion {
+                Log.d("DEMO", "Coroutine finished!")
+            }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.cancel()
     }
 }
