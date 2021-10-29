@@ -2,7 +2,11 @@ package com.example.androidcoroutinebasics
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.androidcoroutinebasics.databinding.ActivityMainBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private var i = 0
@@ -14,10 +18,20 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.btnCount.text = "$i"
+        val btnCount = binding.btnCount
+        btnCount.text = "$i"
 
-        binding.btnCount.setOnClickListener {
-            
+        btnCount.setOnClickListener {
+            runBlocking {
+                launch {
+                    for(j in 1..10) {
+                        i++
+                        btnCount.text = "$i"
+                        Log.d("DEMO", "$i")
+                        delay(1000)
+                    }
+                }
+            }
         }
     }
 }
